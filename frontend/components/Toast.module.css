@@ -1,0 +1,24 @@
+.message {
+  flex: 1;
+  line-height: var(--leading-tight);
+}
+
+.dismiss {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1);
+  background: transparent;
+  border: none;
+  color: inherit;
+  opacity: 0.6;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.dismiss:hover {
+  opacity: 1;
+  background: hsla(0, 0%, 100%, 0.1);
+}
