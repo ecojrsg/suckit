@@ -51,6 +51,11 @@
   filter: drop-shadow(0 0 8px hsla(265, 90%, 65%, 0.45));
 }
 
+.logoTextWrapper {
+  display: flex;
+  align-items: center;
+}
+
 .logoText {
   color: var(--text-primary);
 }

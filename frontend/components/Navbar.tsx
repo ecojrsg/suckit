@@ -15,8 +15,10 @@ export default function Navbar() {
               className={styles.logoImage}
             />
           </div>
-          <span className={styles.logoText}>Suck</span>
-          <span className={styles.logoAccent}>It</span>
+          <span className={styles.logoTextWrapper}>
+            <span className={styles.logoText}>Suck</span>
+            <span className={styles.logoAccent}>It</span>
+          </span>
         </a>
 
         <div className={styles.links}>
