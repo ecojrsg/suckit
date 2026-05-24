@@ -1,0 +1,317 @@
+.landingSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+  margin-top: var(--space-12);
+  animation: fade-in var(--transition-slow) both;
+}
+
+.sectionHeading {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  text-align: center;
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+  letter-spacing: -0.02em;
+}
+
+.sectionSubtitle {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 540px;
+  margin: 0 auto var(--space-10);
+  line-height: var(--leading-relaxed);
+}
+
+/* --- QUICK GUIDE --- */
+.guideContainer {
+  width: 100%;
+}
+
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  margin-top: var(--space-10);
+}
+
+.stepCard {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8) var(--space-6);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: all var(--transition-spring);
+  outline: none;
+  cursor: default;
+}
+
+.stepCard:hover,
+.stepCard:focus-visible {
+  border-color: var(--border-accent);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md), 0 8px 24px hsla(265, 90%, 65%, 0.05);
+}
+
+.stepCard:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.stepNumber {
+  font-size: var(--text-4xl);
+  font-weight: var(--weight-extrabold);
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  transition: transform var(--transition-spring);
+  transform-origin: left center;
+}
+
+.stepCard:hover .stepNumber {
+  transform: scale(1.15);
+}
+
+.stepTitle {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+.stepText {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+/* --- FEATURES --- */
+.featuresContainer {
+  width: 100%;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6);
+}
+
+.featureCard {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: all var(--transition-base);
+  outline: none;
+  cursor: default;
+}
+
+.featureCard:hover,
+.featureCard:focus-visible {
+  border-color: var(--border-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md), 0 4px 20px hsla(190, 85%, 55%, 0.04);
+}
+
+.featureCard:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: 2px;
+}
+
+.featureIconWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  background: hsla(265, 90%, 65%, 0.1);
+  color: var(--accent-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+}
+
+.featureCard:hover .featureIconWrapper {
+  background: var(--accent-gradient);
+  color: var(--text-on-accent);
+  transform: rotate(-3deg) scale(1.05);
+  box-shadow: 0 0 15px var(--accent-primary-glow);
+}
+
+.featureTitle {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+.featureDescription {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+/* --- PLATFORMS --- */
+.platformsContainer {
+  width: 100%;
+}
+
+.platformsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.platformCard {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  text-align: center;
+  transition: all var(--transition-spring);
+  outline: none;
+  cursor: default;
+}
+
+.platformIconContainer {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-spring);
+}
+
+.platformCard:hover .platformIconContainer {
+  transform: scale(1.15) rotate(5deg);
+}
+
+.platformCard:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.platformName {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+.platformBadge {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+
+/* Glowing micro-animations specific to each brand */
+.platformCard.youtube:hover,
+.platformCard.youtube:focus-visible {
+  border-color: var(--color-youtube);
+  box-shadow: 0 0 25px rgba(255, 0, 51, 0.15), var(--shadow-md);
+  transform: translateY(-4px);
+}
+.platformCard.youtube:focus-visible {
+  color: var(--color-youtube);
+}
+
+.platformCard.tiktok:hover,
+.platformCard.tiktok:focus-visible {
+  border-color: var(--color-tiktok);
+  box-shadow: 0 0 25px rgba(0, 242, 234, 0.15), var(--shadow-md);
+  transform: translateY(-4px);
+}
+.platformCard.tiktok:focus-visible {
+  color: var(--color-tiktok);
+}
+
+.platformCard.instagram:hover,
+.platformCard.instagram:focus-visible {
+  border-color: var(--color-instagram);
+  box-shadow: 0 0 25px rgba(228, 64, 95, 0.15), var(--shadow-md);
+  transform: translateY(-4px);
+}
+.platformCard.instagram:focus-visible {
+  color: var(--color-instagram);
+}
+
+.platformCard.twitter:hover,
+.platformCard.twitter:focus-visible {
+  border-color: var(--color-twitter);
+  box-shadow: 0 0 25px rgba(29, 161, 242, 0.15), var(--shadow-md);
+  transform: translateY(-4px);
+}
+.platformCard.twitter:focus-visible {
+  color: var(--color-twitter);
+}
+
+.platformFooter {
+  text-align: center;
+  margin-top: var(--space-6);
+  animation: fade-in var(--transition-base) both;
+}
+
+.additionalPlatformsBadge {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
+  background: hsla(225, 20%, 50%, 0.05);
+  border: 1px dashed var(--border-default);
+  border-radius: var(--radius-full);
+}
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+@media (max-width: 768px) {
+  .landingSection {
+    gap: var(--space-16);
+  }
+
+  .stepsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .platformsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+  
+  .stepCard {
+    padding: var(--space-6);
+  }
+}
+
+@media (max-width: 480px) {
+  .platformsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .sectionHeading {
+    font-size: var(--text-xl);
+  }
+  
+  .sectionSubtitle {
+    font-size: var(--text-sm);
+  }
+}

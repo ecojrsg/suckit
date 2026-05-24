@@ -12,19 +12,21 @@
   background: var(--bg-secondary);
   border: 1.5px solid var(--border-default);
   border-radius: var(--radius-2xl);
-  transition: all var(--transition-base);
+  transition: all var(--transition-spring);
   overflow: hidden;
 }
 
 .inputWrapper:hover {
   border-color: var(--border-accent);
   background: var(--bg-surface);
+  transform: translateY(-1px);
 }
 
 .inputWrapper.focused {
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px var(--accent-primary-glow), var(--shadow-md);
+  box-shadow: 0 0 25px var(--accent-primary-glow), 0 0 0 3px var(--accent-primary-glow), var(--shadow-lg);
   background: var(--bg-surface);
+  transform: translateY(-2px);
 }
 
 .platformBadge {

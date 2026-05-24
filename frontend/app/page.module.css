@@ -10,12 +10,12 @@
 
 .container {
   width: 100%;
-  max-width: var(--max-width);
+  max-width: 1000px;
   padding: 0 var(--space-5);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-10);
+  gap: var(--space-16);
 }
 
 /* Hero */
@@ -25,6 +25,8 @@
   flex-direction: column;
   gap: var(--space-4);
   animation: slide-up 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  width: 100%;
+  max-width: 640px;
 }
 
 .title {
@@ -46,12 +48,14 @@
 /* Input Section */
 .inputSection {
   width: 100%;
+  max-width: 640px;
   animation: slide-up 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
 }
 
 /* Results Section */
 .resultsSection {
   width: 100%;
+  max-width: 640px;
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
@@ -89,6 +93,7 @@
   cursor: pointer;
   transition: all var(--transition-fast);
   animation: fade-in var(--transition-base) forwards;
+  max-width: max-content;
 }
 
 .resetBtn:hover {

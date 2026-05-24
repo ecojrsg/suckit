@@ -7,11 +7,12 @@ import VideoCard from '@/components/VideoCard';
 import FormatSelector from '@/components/FormatSelector';
 import DownloadButton from '@/components/DownloadButton';
 import ToastContainer, { showToast } from '@/components/Toast';
+import LandingInfo from '@/components/LandingInfo';
 import { fetchVideoInfo, startDownload } from '@/lib/api';
 import { VideoInfo } from '@/lib/types';
 import styles from './page.module.css';
 
-type AppState = 'idle' | 'loading-info' | 'ready' | 'downloading';
+type AppState = 'idle' | 'loading-info' | 'ready' | 'downloading' | 'completed';
 
 export default function Home() {
   const [state, setState] = useState<AppState>('idle');
@@ -59,6 +60,7 @@ export default function Home() {
   }, [currentUrl, selectedFormat, videoInfo]);
 
   const handleDownloadComplete = useCallback(() => {
+    setState('completed');
     showToast('success', '¡Descarga completada!');
   }, []);
 
@@ -77,6 +79,9 @@ export default function Home() {
 
   return (
     <>
+      <div className="aurora-blob blob-primary" aria-hidden="true" />
+      <div className="aurora-blob blob-secondary" aria-hidden="true" />
+      <div className="aurora-blob blob-tertiary" aria-hidden="true" />
       <Navbar />
       <main className={styles.main}>
         <div className={styles.container}>
@@ -128,7 +133,7 @@ export default function Home() {
                   </button>
                 )}
 
-                {state === 'downloading' && (
+                {(state === 'downloading' || state === 'completed') && (
                   <DownloadButton
                     taskId={taskId}
                     onComplete={handleDownloadComplete}
@@ -150,20 +155,8 @@ export default function Home() {
             </button>
           )}
 
-          {/* Supported Platforms */}
-          {state === 'idle' && (
-            <section className={styles.platforms}>
-              <p className={styles.platformsLabel}>Plataformas soportadas</p>
-              <div className={styles.platformsList}>
-                {['YouTube', 'TikTok', 'Instagram', 'X / Twitter'].map((name) => (
-                  <span key={name} className={styles.platformChip}>
-                    {name}
-                  </span>
-                ))}
-                <span className={styles.platformChip}>+ 1000 más</span>
-              </div>
-            </section>
-          )}
+          {/* Landing Info Section */}
+          <LandingInfo />
         </div>
       </main>
       <ToastContainer />
