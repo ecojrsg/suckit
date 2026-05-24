@@ -32,12 +32,23 @@
 }
 
 .logo:hover {
-  opacity: 0.85;
+  opacity: 0.95;
 }
 
-.logoIcon {
-  font-size: var(--text-2xl);
-  line-height: 1;
+.logoIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-spring);
+}
+
+.logoImage {
+  transition: all var(--transition-spring);
+}
+
+.logo:hover .logoImage {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 8px hsla(265, 90%, 65%, 0.45));
 }
 
 .logoText {

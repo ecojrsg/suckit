@@ -1,5 +1,4 @@
-'use client';
-
+import Image from 'next/image';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
@@ -7,7 +6,15 @@ export default function Navbar() {
     <nav className={styles.nav}>
       <div className={styles.container}>
         <a href="/" className={styles.logo}>
-          <span className={styles.logoIcon}>⚡</span>
+          <div className={styles.logoIconWrapper}>
+            <Image
+              src="/suckit_logo.png"
+              alt="Logo SuckIt"
+              width={32}
+              height={32}
+              className={styles.logoImage}
+            />
+          </div>
           <span className={styles.logoText}>Suck</span>
           <span className={styles.logoAccent}>It</span>
         </a>

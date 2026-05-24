@@ -29,6 +29,48 @@
   max-width: 640px;
 }
 
+.logoContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-2);
+  width: 120px;
+  height: 120px;
+}
+
+.heroLogo {
+  z-index: 2;
+  animation: levitate 6s ease-in-out infinite;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+}
+
+.logoGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, hsla(265, 90%, 65%, 0.3) 0%, transparent 70%);
+  filter: blur(15px);
+  z-index: 1;
+  pointer-events: none;
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes levitate {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .title {
   font-size: var(--text-4xl);
   font-weight: var(--weight-extrabold);

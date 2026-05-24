@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import UrlInput from '@/components/UrlInput';
 import VideoCard from '@/components/VideoCard';
@@ -87,6 +88,17 @@ export default function Home() {
         <div className={styles.container}>
           {/* Hero */}
           <section className={styles.hero}>
+            <div className={styles.logoContainer}>
+              <Image
+                src="/suckit_logo.png"
+                alt="SuckIt Logo"
+                width={120}
+                height={120}
+                className={styles.heroLogo}
+                priority
+              />
+              <div className={styles.logoGlow} aria-hidden="true" />
+            </div>
             <h1 className={styles.title}>
               Descarga videos de{' '}
               <span className="text-gradient">cualquier plataforma</span>
