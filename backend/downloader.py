@@ -8,6 +8,7 @@ in tests and to swap the download backend later if needed.
 from __future__ import annotations
 
 import logging
+import os
 from pathlib import Path
 from typing import Any, Callable
 
@@ -21,6 +22,14 @@ logger = logging.getLogger(__name__)
 # Shared yt-dlp option helpers
 # ---------------------------------------------------------------------------
 
+# Detect if a local FFmpeg binary exists in the backend/bin/ directory
+_LOCAL_BIN = Path(__file__).parent / "bin"
+if (_LOCAL_BIN / "ffmpeg").exists() or (_LOCAL_BIN / "ffmpeg.exe").exists():
+    _FFMPEG_LOC = str(_LOCAL_BIN)
+    logger.info("Found local FFmpeg binary at: %s", _FFMPEG_LOC)
+else:
+    _FFMPEG_LOC = None  # None -> search $PATH
+
 # Maximum single-file size we allow (2 GiB).  yt-dlp will abort if exceeded.
 _MAX_FILESIZE = 2 * 1024 * 1024 * 1024
 
@@ -31,8 +40,8 @@ _COMMON_OPTS: dict[str, Any] = {
     "noplaylist": True,
     # Prefer mp4 container when merging separate video+audio streams.
     "merge_output_format": "mp4",
-    # Use system FFmpeg.
-    "ffmpeg_location": None,  # None → search $PATH
+    # Use local FFmpeg if found, otherwise system FFmpeg.
+    "ffmpeg_location": _FFMPEG_LOC,
     # Safety limits
     "max_filesize": _MAX_FILESIZE,
     "socket_timeout": 30,

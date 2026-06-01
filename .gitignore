@@ -2,29 +2,50 @@
 # SuckIt — Root GitIgnore
 # ===========================================================================
 
-# --- OS / IDEs ---
+# --- OS / System ---
 .DS_Store
+.DS_Store?
+._*
 Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- IDEs / Editors ---
 .vscode/
+!.vscode/extensions.json
 .idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.swp
+*.swo
+.project
+.classpath
+.settings/
+.cache/
 
-# --- Node / Next.js (Frontend) ---
+# --- Node / Package Managers ---
+node_modules/
+/node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+.yarn-integrity
+
+# --- Frontend (Next.js / React) ---
 frontend/node_modules/
 frontend/.next/
 frontend/out/
 frontend/build/
 frontend/dist/
-frontend/npm-debug.log*
-frontend/yarn-debug.log*
-frontend/yarn-error.log*
-frontend/.pnpm-debug.log*
+frontend/.docusaurus/
+frontend/tsconfig.tsbuildinfo
 
-# --- Python (Backend) ---
+# --- Backend (Python) ---
 backend/__pycache__/
 backend/*.py[cod]
 backend/*$py.class
@@ -32,23 +53,35 @@ backend/.venv/
 backend/venv/
 backend/ENV/
 backend/env/
+backend/ipython_log.py
 backend/.pytest_cache/
 backend/.coverage
 backend/htmlcov/
 backend/.mypy_cache/
 backend/.ruff_cache/
+backend/pip-log.txt
+backend/pip-delete-this-directory.txt
 
-# --- Environment Variables ---
+# --- Environment & Credentials ---
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+*.env
+*.env.local
 frontend/.env*.local
 backend/.env
+backend/.*env
+.valet
+.env.php
 
-# --- Local Downloads & Docker ---
+# --- Docker & Volumes ---
 docker/volumes/
+.docker/
+docker-compose.override.yml
+
+# --- Downloads, Media & Temp ---
 downloads/
 temp_downloads/
 *.mp4
@@ -57,10 +90,11 @@ temp_downloads/
 *.webm
 *.part
 *.ytdl
+*.aria2
+*.tmp
+*.temp
 
-# --- CLI / Sandbox ---
+# --- AI Assistants & Sandbox ---
 .antigravitycli/
-scratch/
-
-# --- IA ---
 .antigravitycli
+scratch/
