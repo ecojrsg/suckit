@@ -13,8 +13,11 @@ if %errorlevel% neq 0 (
     pause
     exit /b 1
 )
-for /f "delims=." %%a in ('node --version') do set NODE_VER=%%a
-set NODE_MAJOR=!NODE_VER:v=!
+set NODE_MAJOR=0
+for /f "delims=." %%a in ('node --version 2^>^&1') do set NODE_VER=%%a
+if not "!NODE_VER!"=="" set NODE_MAJOR=!NODE_VER:v=!
+set NODE_MAJOR=%NODE_MAJOR: =%
+
 if !NODE_MAJOR! lss 20 (
     echo [WARNING] Se recomienda Node.js version 20 o superior. Tu version actual es menor.
 )
@@ -36,12 +39,20 @@ if %errorlevel% neq 0 (
 )
 
 :: Check Python version
-for /f "tokens=2 delims= " %%a in ('%PYTHON_CMD% --version') do (
+set PY_MAJOR=0
+set PY_MINOR=0
+for /f "tokens=2 delims= " %%a in ('%PYTHON_CMD% --version 2^>^&1') do (
     for /f "tokens=1,2 delims=." %%b in ("%%a") do (
         set PY_MAJOR=%%b
         set PY_MINOR=%%c
     )
 )
+set PY_MAJOR=%PY_MAJOR: =%
+set PY_MINOR=%PY_MINOR: =%
+
+if "!PY_MAJOR!"=="" set PY_MAJOR=0
+if "!PY_MINOR!"=="" set PY_MINOR=0
+
 if !PY_MAJOR! lss 3 (
     echo [ERROR] Python 3.12+ es requerido. Tu version es muy antigua.
     pause
