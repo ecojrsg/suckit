@@ -85,27 +85,8 @@ if %errorlevel% equ 0 (
     if exist backend\bin\ffmpeg.exe (
         echo [INFO] Se detecto FFmpeg local en backend\bin\
     ) else (
-        echo [INFO] FFmpeg no fue detectado. Descargando compilacion estatica para Windows de forma automatizada...
-        mkdir backend\bin >nul 2>&1
-        
-        rem Gyandev provides stable windows static builds
-        set FFMPEG_URL=https://github.com/GyanD/codexffmpeg/releases/download/7.1/ffmpeg-7.1-essentials_build.zip
-        echo [INFO] Descargando desde !FFMPEG_URL!...
-        powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri '!FFMPEG_URL!' -OutFile 'backend\bin\ffmpeg.zip'"
-        
-        if !errorlevel! neq 0 (
-            echo [ERROR] No se pudo descargar FFmpeg de forma automatizada.
-            echo Por favor, instalalo manualmente o descargalo de https://ffmpeg.org/
-        ) else (
-            echo [INFO] Descomprimiendo y configurando FFmpeg...
-            powershell -Command "Expand-Archive -Path 'backend\bin\ffmpeg.zip' -DestinationPath 'backend\bin\temp' -Force; Get-ChildItem -Path 'backend\bin\temp\**\ffmpeg.exe', 'backend\bin\temp\**\ffprobe.exe', 'backend\bin\temp\**\ffplay.exe' -ErrorAction SilentlyContinue | Copy-Item -Destination 'backend\bin' -Force; Remove-Item -Recurse -Force 'backend\bin\temp', 'backend\bin\ffmpeg.zip' -ErrorAction SilentlyContinue"
-            
-            if exist backend\bin\ffmpeg.exe (
-                echo [INFO] FFmpeg instalado correctamente en backend\bin\
-            ) else (
-                echo [ERROR] No se pudo extraer FFmpeg correctamente.
-            )
-        )
+        echo [INFO] FFmpeg no fue detectado. Iniciando script de descarga automatizada para Windows...
+        powershell -ExecutionPolicy Bypass -File backend\download_ffmpeg.ps1
     )
 )
 
