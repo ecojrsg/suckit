@@ -13,10 +13,12 @@ if %errorlevel% neq 0 (
     pause
     exit /b 1
 )
-for /f "tokens=2 delims=v." %%a in ('node --version') do set NODE_MAJOR=%%a
+for /f "delims=." %%a in ('node --version') do set NODE_VER=%%a
+set NODE_MAJOR=!NODE_VER:v=!
 if !NODE_MAJOR! lss 20 (
     echo [WARNING] Se recomienda Node.js version 20 o superior. Tu version actual es menor.
 )
+
 
 :: Check Python
 where python >nul 2>&1
