@@ -90,4 +90,4 @@ Usuario → Next.js (3000) → FastAPI (8000) → yt-dlp → Archivo → Usuario
 
 ## 📝 Licencia
 
-Uso personal. Consulta las leyes locales sobre descarga de contenido protegido.
+Este proyecto está bajo la Licencia **MIT**. Consulta el archivo [LICENSE](LICENSE) para obtener más detalles.
