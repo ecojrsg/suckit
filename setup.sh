@@ -22,7 +22,8 @@ else
 fi
 
 # Check dependencies
-echo "[INFO] Instalando dependencias del Frontend..."
+echo "[INFO] Instalando dependencias del Frontend y de la Raíz..."
+npm install
 cd frontend
 npm install
 cd ..

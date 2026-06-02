@@ -62,7 +62,8 @@ if !PY_MINOR! lss 12 (
     echo [WARNING] Se recomienda Python 3.12 o superior. Tu version es 3.!PY_MINOR!.
 )
 
-echo [INFO] Configurando dependencias del Frontend...
+echo [INFO] Configurando dependencias del Frontend y de la Raiz...
+call npm install
 cd frontend
 call npm install
 cd ..
