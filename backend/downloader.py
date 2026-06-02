@@ -40,6 +40,10 @@ _COMMON_OPTS: dict[str, Any] = {
     "noplaylist": True,
     # Prefer mp4 container when merging separate video+audio streams.
     "merge_output_format": "mp4",
+    # Force audio transcoding to aac during merge to guarantee maximum player compatibility (avoiding opus inside mp4)
+    "postprocessor_args": {
+        "ffmpeg": ["-c:v", "copy", "-c:a", "aac"]
+    },
     # Use local FFmpeg if found, otherwise system FFmpeg.
     "ffmpeg_location": _FFMPEG_LOC,
     # Safety limits
