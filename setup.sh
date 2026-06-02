@@ -99,6 +99,13 @@ fi
 
 echo "==================================================="
 echo "  ¡Configuración Completada con Éxito!"
-echo "  Para arrancar la aplicación en desarrollo, ejecuta:"
-echo "    npm run dev"
 echo "==================================================="
+echo ""
+read -p "¿Deseas iniciar la aplicación en modo desarrollo ahora mismo? (S/N) [S]: " START_APP
+START_APP=${START_APP:-S}
+if [[ "$START_APP" =~ ^[Ss]$ ]]; then
+    echo "[INFO] Iniciando aplicación..."
+    npm run dev
+else
+    echo "[INFO] Puedes iniciar la aplicación más tarde ejecutando: npm run dev"
+fi
