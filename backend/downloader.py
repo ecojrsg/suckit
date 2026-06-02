@@ -332,6 +332,7 @@ def download_video(
 
     opts: dict[str, Any] = {
         **_COMMON_OPTS,
+        "ignoreerrors": True,  # Prevent postprocessor failures (like EmbedThumbnail) from crashing the download
         "format": fmt_string,
         "outtmpl": outtmpl,
         "postprocessors": postprocessors,
