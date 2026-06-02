@@ -9,9 +9,30 @@ echo ===================================================
 :: Check Node.js
 where node >nul 2>&1
 if %errorlevel% neq 0 (
-    echo [ERROR] Node.js no esta instalado. Descargalo desde: https://nodejs.org/
-    pause
-    exit /b 1
+    echo [INFO] Node.js no esta instalado en el sistema.
+    echo [INFO] Intentando instalar Node.js LTS automaticamente usando winget...
+    where winget >nul 2>&1
+    if !errorlevel! equ 0 (
+        echo [INFO] Descargando e instalando Node.js LTS. Por favor, acepta los terminos si se solicita...
+        winget install OpenJS.NodeJS.LTS --silent --accept-source-agreements --accept-package-agreements
+        if !errorlevel! equ 0 (
+            echo [INFO] Node.js instalado con éxito. Actualizando PATH de la sesion...
+            for /f "tokens=2*" %%A in ('reg query "HKLM\System\CurrentControlSet\Control\Session Manager\Environment" /v Path') do set "SYS_PATH=%%B"
+            for /f "tokens=2*" %%A in ('reg query "HKCU\Environment" /v Path') do set "USR_PATH=%%B"
+            set "PATH=!SYS_PATH!;!USR_PATH!"
+            echo [INFO] PATH de Node.js actualizado correctamente en esta sesion.
+        ) else (
+            echo [ERROR] No se pudo completar la instalacion automatica de Node.js.
+            echo Por favor, descargalo e instalalo manualmente desde: https://nodejs.org/
+            pause
+            exit /b 1
+        )
+    ) else (
+        echo [ERROR] winget no esta disponible en tu sistema.
+        echo Por favor, instala Node.js manualmente desde: https://nodejs.org/
+        pause
+        exit /b 1
+    )
 )
 set NODE_MAJOR=0
 for /f "delims=." %%a in ('node --version 2^>^&1') do set NODE_VER=%%a
@@ -28,9 +49,31 @@ where python >nul 2>&1
 if %errorlevel% neq 0 (
     where py >nul 2>&1
     if !errorlevel! neq 0 (
-        echo [ERROR] Python no esta instalado. Descargalo desde: https://www.python.org/
-        pause
-        exit /b 1
+        echo [INFO] Python no esta instalado en el sistema.
+        echo [INFO] Intentando instalar Python 3.12 automaticamente usando winget...
+        where winget >nul 2>&1
+        if !errorlevel! equ 0 (
+            echo [INFO] Descargando e instalando Python 3.12. Por favor, acepta los terminos si se solicita...
+            winget install Python.Python.3.12 --silent --accept-source-agreements --accept-package-agreements
+            if !errorlevel! equ 0 (
+                echo [INFO] Python instalado con éxito. Actualizando PATH de la sesion...
+                for /f "tokens=2*" %%A in ('reg query "HKLM\System\CurrentControlSet\Control\Session Manager\Environment" /v Path') do set "SYS_PATH=%%B"
+                for /f "tokens=2*" %%A in ('reg query "HKCU\Environment" /v Path') do set "USR_PATH=%%B"
+                set "PATH=!SYS_PATH!;!USR_PATH!"
+                set PYTHON_CMD=python
+                echo [INFO] PATH de Python actualizado correctamente en esta sesion.
+            ) else (
+                echo [ERROR] No se pudo completar la instalacion automatica de Python.
+                echo Por favor, descargalo e instalalo manualmente desde: https://www.python.org/
+                pause
+                exit /b 1
+            )
+        ) else (
+            echo [ERROR] winget no esta disponible en tu sistema.
+            echo Por favor, instala Python manualmente desde: https://www.python.org/
+            pause
+            exit /b 1
+        )
     ) else (
         set PYTHON_CMD=py
     )

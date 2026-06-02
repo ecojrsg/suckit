@@ -7,8 +7,28 @@ echo "==================================================="
 
 # Check Node.js
 if ! command -v node &> /dev/null; then
-    echo "[ERROR] Node.js no está instalado. Descárgalo de: https://nodejs.org/"
-    exit 1
+    echo "[INFO] Node.js no está instalado en tu sistema."
+    echo "[INFO] Intentando instalar Node.js automáticamente..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        if command -v brew &> /dev/null; then
+            echo "[INFO] Ejecutando: brew install node..."
+            brew install node
+        else
+            echo "[ERROR] Homebrew no está instalado. Instala Node.js manualmente desde: https://nodejs.org/"
+            exit 1
+        fi
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        if command -v apt-get &> /dev/null; then
+            echo "[INFO] Ejecutando: sudo apt-get update && sudo apt-get install -y nodejs npm..."
+            sudo apt-get update && sudo apt-get install -y nodejs npm
+        else
+            echo "[ERROR] Gestor de paquetes no soportado. Instala Node.js manualmente desde: https://nodejs.org/"
+            exit 1
+        fi
+    else
+        echo "[ERROR] Sistema operativo no soportado para instalación automática de Node.js."
+        exit 1
+    fi
 fi
 
 # Check Python
@@ -17,8 +37,30 @@ if command -v python3 &> /dev/null; then
 elif command -v python &> /dev/null; then
     PYTHON_CMD=python
 else
-    echo "[ERROR] Python 3 no está instalado. Descárgalo de: https://www.python.org/"
-    exit 1
+    echo "[INFO] Python 3 no está instalado en tu sistema."
+    echo "[INFO] Intentando instalar Python 3 automáticamente..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        if command -v brew &> /dev/null; then
+            echo "[INFO] Ejecutando: brew install python..."
+            brew install python
+            PYTHON_CMD=python3
+        else
+            echo "[ERROR] Homebrew no está instalado. Instala Python manualmente desde: https://www.python.org/"
+            exit 1
+        fi
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        if command -v apt-get &> /dev/null; then
+            echo "[INFO] Ejecutando: sudo apt-get update && sudo apt-get install -y python3 python3-venv python3-pip..."
+            sudo apt-get update && sudo apt-get install -y python3 python3-venv python3-pip
+            PYTHON_CMD=python3
+        else
+            echo "[ERROR] Gestor de paquetes no soportado. Instala Python manualmente desde: https://www.python.org/"
+            exit 1
+        fi
+    else
+        echo "[ERROR] Sistema operativo no soportado para instalación automática de Python."
+        exit 1
+    fi
 fi
 
 # Check dependencies
