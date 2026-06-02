@@ -68,15 +68,13 @@ call npm install
 cd ..
 
 echo [INFO] Configurando dependencias del Backend...
-cd backend
-if not exist .venv (
-    echo [INFO] Creando entorno virtual de Python (.venv)...
-    %PYTHON_CMD% -m venv .venv
+if not exist backend\.venv (
+    echo [INFO] Creando entorno virtual de Python - venv...
+    %PYTHON_CMD% -m venv backend\.venv
 )
-call .venv\Scripts\activate.bat
-pip install --upgrade pip
-pip install -r requirements.txt
-cd ..
+echo [INFO] Actualizando pip e instalando dependencias de Python...
+backend\.venv\Scripts\python.exe -m pip install --upgrade pip
+backend\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
 
 :: FFmpeg Auto-Download
 echo [INFO] Verificando FFmpeg...
@@ -90,7 +88,7 @@ if %errorlevel% equ 0 (
         echo [INFO] FFmpeg no fue detectado. Descargando compilacion estatica para Windows de forma automatizada...
         mkdir backend\bin >nul 2>&1
         
-        :: Gyandev provides stable windows static builds
+        rem Gyandev provides stable windows static builds
         set FFMPEG_URL=https://github.com/GyanD/codexffmpeg/releases/download/7.1/ffmpeg-7.1-essentials_build.zip
         echo [INFO] Descargando desde !FFMPEG_URL!...
         powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri '!FFMPEG_URL!' -OutFile 'backend\bin\ffmpeg.zip'"
@@ -99,17 +97,8 @@ if %errorlevel% equ 0 (
             echo [ERROR] No se pudo descargar FFmpeg de forma automatizada.
             echo Por favor, instalalo manualmente o descargalo de https://ffmpeg.org/
         ) else (
-            echo [INFO] Descomprimiendo FFmpeg...
-            powershell -Command "Expand-Archive -Path 'backend\bin\ffmpeg.zip' -DestinationPath 'backend\bin\temp'"
-            
-            :: Move files to backend\bin
-            move backend\bin\temp\ffmpeg-*-essentials_build\bin\ffmpeg.exe backend\bin\ >nul 2>&1
-            move backend\bin\temp\ffmpeg-*-essentials_build\bin\ffprobe.exe backend\bin\ >nul 2>&1
-            move backend\bin\temp\ffmpeg-*-essentials_build\bin\ffplay.exe backend\bin\ >nul 2>&1
-            
-            :: Cleanup
-            del /q backend\bin\ffmpeg.zip >nul 2>&1
-            rmdir /s /q backend\bin\temp >nul 2>&1
+            echo [INFO] Descomprimiendo y configurando FFmpeg...
+            powershell -Command "Expand-Archive -Path 'backend\bin\ffmpeg.zip' -DestinationPath 'backend\bin\temp' -Force; Get-ChildItem -Path 'backend\bin\temp\**\ffmpeg.exe', 'backend\bin\temp\**\ffprobe.exe', 'backend\bin\temp\**\ffplay.exe' -ErrorAction SilentlyContinue | Copy-Item -Destination 'backend\bin' -Force; Remove-Item -Recurse -Force 'backend\bin\temp', 'backend\bin\ffmpeg.zip' -ErrorAction SilentlyContinue"
             
             if exist backend\bin\ffmpeg.exe (
                 echo [INFO] FFmpeg instalado correctamente en backend\bin\
