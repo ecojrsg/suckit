@@ -106,7 +106,14 @@ if not exist backend\.env (
 
 echo ===================================================
 echo   ¡Configuracion Completada con Exito!
-echo   Para arrancar la aplicacion en desarrollo, ejecuta:
-echo     npm run dev
 echo ===================================================
-pause
+echo.
+set /p START_APP="¿Deseas iniciar la aplicacion en modo desarrollo ahora mismo? (S/N) [S]: "
+if "%START_APP%"=="" set START_APP=S
+if /i "%START_APP%"=="S" (
+    echo [INFO] Iniciando aplicacion...
+    npm run dev
+) else (
+    echo [INFO] Puedes iniciar la aplicacion mas tarde ejecutando: npm run dev
+    pause
+)
