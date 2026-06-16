@@ -128,6 +128,10 @@ class DownloadRequest(BaseModel):
         default="best",
         description="Quality preset when ``format_id`` is not specified.",
     )
+    audio_format: Literal["mp3", "m4a"] = Field(
+        default="mp3",
+        description="Target audio format when downloading audio-only (mp3 or m4a).",
+    )
 
     @field_validator("url")
     @classmethod

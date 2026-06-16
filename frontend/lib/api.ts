@@ -65,12 +65,18 @@ export async function fetchVideoInfo(url: string): Promise<VideoInfo> {
 export async function startDownload(
   url: string,
   formatId: string,
-  quality: string
+  quality: string,
+  audioFormat?: 'mp3' | 'm4a'
 ): Promise<{ task_id: string }> {
   const response = await fetchWithTimeout(`${API_BASE}/api/download`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ url, format_id: formatId, quality }),
+    body: JSON.stringify({
+      url,
+      format_id: formatId,
+      quality,
+      audio_format: audioFormat || 'mp3',
+    }),
   });
 
   if (!response.ok) {

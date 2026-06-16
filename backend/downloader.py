@@ -42,7 +42,7 @@ _COMMON_OPTS: dict[str, Any] = {
     "merge_output_format": "mp4",
     # Force audio transcoding to aac during merge to guarantee maximum player compatibility (avoiding opus inside mp4)
     "postprocessor_args": {
-        "ffmpeg": ["-c:v", "copy", "-c:a", "aac"]
+        "Merger": ["-c:v", "copy", "-c:a", "aac"]
     },
     # Use local FFmpeg if found, otherwise system FFmpeg.
     "ffmpeg_location": _FFMPEG_LOC,
@@ -231,6 +231,7 @@ def download_video(
     url: str,
     format_id: str | None = None,
     quality: str = "best",
+    audio_format: str = "mp3",
     output_dir: str | Path = "/tmp/suckit_downloads",
     progress_callback: ProgressCallback | None = None,
 ) -> Path:
@@ -240,6 +241,7 @@ def download_video(
         url: The video URL.
         format_id: Optional explicit yt-dlp format ID.
         quality: Quality preset (``"best"``, ``"worst"``, ``"audio_only"``).
+        audio_format: Target audio format (``"mp3"``, ``"m4a"``).
         output_dir: Directory to write the file into.
         progress_callback: Optional ``(progress_pct, status_msg)`` callable
             invoked as data arrives.
@@ -259,6 +261,10 @@ def download_video(
     outtmpl = str(output_dir / "%(title).100B [%(id)s].%(ext)s")
 
     # Determine the format string and if it is audio-only
+    if format_id == "audio_only":
+        format_id = None
+        quality = "audio_only"
+    
     is_audio_only = (quality == "audio_only")
     
     if format_id:
@@ -303,12 +309,12 @@ def download_video(
             "already_have_thumbnail": False,
         },
     ]
-    # If audio-only, convert to m4a instead of mp4.
+    # If audio-only, convert to selected audio format instead of mp4.
     if is_audio_only:
         postprocessors = [
             {
                 "key": "FFmpegExtractAudio",
-                "preferredcodec": "m4a",
+                "preferredcodec": audio_format,
                 "preferredquality": "192",
             }
         ]

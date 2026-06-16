@@ -14,7 +14,14 @@ interface DownloadButtonProps {
 export default function DownloadButton({ taskId, onComplete, onError }: DownloadButtonProps) {
   const [status, setStatus] = useState<DownloadStatusType>('pending');
   const [progress, setProgress] = useState(0);
+  const [prevTaskId, setPrevTaskId] = useState<string | null>(null);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  if (taskId !== prevTaskId) {
+    setPrevTaskId(taskId);
+    setStatus('pending');
+    setProgress(0);
+  }
 
   const stopPolling = useCallback(() => {
     if (pollRef.current) {
@@ -25,9 +32,6 @@ export default function DownloadButton({ taskId, onComplete, onError }: Download
 
   useEffect(() => {
     if (!taskId) return;
-
-    setStatus('pending');
-    setProgress(0);
 
     const poll = async () => {
       try {

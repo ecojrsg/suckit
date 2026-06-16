@@ -21,9 +21,20 @@ function categorizeFormats(formats: VideoFormat[]) {
       return qualityOrder(b.quality) - qualityOrder(a.quality);
     });
 
-  const audioFormats = formats
+  const rawAudioFormats = formats
     .filter((f) => f.has_audio && !f.has_video)
     .sort((a, b) => (b.filesize || 0) - (a.filesize || 0));
+
+  const virtualMp3: VideoFormat = {
+    format_id: 'audio_only',
+    ext: 'mp3',
+    quality: 'Alta Calidad (192kbps)',
+    filesize: null,
+    has_video: false,
+    has_audio: true,
+  };
+
+  const audioFormats = [virtualMp3, ...rawAudioFormats];
 
   return { videoFormats, audioFormats };
 }

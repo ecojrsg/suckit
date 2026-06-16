@@ -73,7 +73,7 @@ export default function LandingInfo() {
             <div className={styles.stepNumber}>03</div>
             <h3 className={styles.stepTitle}>Disfruta tu archivo</h3>
             <p className={styles.stepText}>
-              Presiona "Iniciar descarga" y en segundos el archivo estará listo en tu carpeta de descargas.
+              Presiona &quot;Iniciar descarga&quot; y en segundos el archivo estará listo en tu carpeta de descargas.
             </p>
           </div>
         </div>

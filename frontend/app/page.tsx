@@ -19,6 +19,7 @@ export default function Home() {
   const [state, setState] = useState<AppState>('idle');
   const [videoInfo, setVideoInfo] = useState<VideoInfo | null>(null);
   const [selectedFormat, setSelectedFormat] = useState<string>('');
+  const [audioFormat, setAudioFormat] = useState<'mp3' | 'm4a'>('mp3');
   const [taskId, setTaskId] = useState<string | null>(null);
   const [currentUrl, setCurrentUrl] = useState<string>('');
 
@@ -26,6 +27,7 @@ export default function Home() {
     setState('loading-info');
     setVideoInfo(null);
     setSelectedFormat('');
+    setAudioFormat('mp3');
     setTaskId(null);
     setCurrentUrl(url);
 
@@ -51,14 +53,20 @@ export default function Home() {
     setState('downloading');
     try {
       const selected = videoInfo?.formats.find(f => f.format_id === selectedFormat);
-      const result = await startDownload(currentUrl, selectedFormat, selected?.quality || 'best');
+      const isAudioOnly = selectedFormat === 'audio_only' || (selected ? (selected.has_audio && !selected.has_video) : false);
+      const result = await startDownload(
+        currentUrl,
+        selectedFormat,
+        selected?.quality || 'best',
+        isAudioOnly ? audioFormat : undefined
+      );
       setTaskId(result.task_id);
     } catch (err) {
       setState('ready');
       const message = err instanceof Error ? err.message : 'No se pudo iniciar la descarga';
       showToast('error', message);
     }
-  }, [currentUrl, selectedFormat, videoInfo]);
+  }, [currentUrl, selectedFormat, videoInfo, audioFormat]);
 
   const handleDownloadComplete = useCallback(() => {
     setState('completed');
@@ -74,9 +82,13 @@ export default function Home() {
     setState('idle');
     setVideoInfo(null);
     setSelectedFormat('');
+    setAudioFormat('mp3');
     setTaskId(null);
     setCurrentUrl('');
   }, []);
+
+  const selectedFormatObj = videoInfo?.formats.find((f) => f.format_id === selectedFormat);
+  const isAudioSelected = selectedFormat === 'audio_only' || (selectedFormatObj ? (selectedFormatObj.has_audio && !selectedFormatObj.has_video) : false);
 
   return (
     <>
@@ -128,6 +140,28 @@ export default function Home() {
                   selectedFormatId={selectedFormat}
                   onSelect={setSelectedFormat}
                 />
+
+                {isAudioSelected && state === 'ready' && (
+                  <div className={styles.audioFormatContainer}>
+                    <span className={styles.audioFormatLabel}>Formato de audio final:</span>
+                    <div className="pill-group">
+                      <button
+                        type="button"
+                        onClick={() => setAudioFormat('mp3')}
+                        className={`pill ${audioFormat === 'mp3' ? 'active' : ''}`}
+                      >
+                        MP3 (Recomendado)
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setAudioFormat('m4a')}
+                        className={`pill ${audioFormat === 'm4a' ? 'active' : ''}`}
+                      >
+                        M4A (Original)
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 {state === 'ready' && (
                   <button

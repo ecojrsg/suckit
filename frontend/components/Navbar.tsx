@@ -1,11 +1,12 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
   return (
     <nav className={styles.nav}>
       <div className={styles.container}>
-        <a href="/" className={styles.logo}>
+        <Link href="/" className={styles.logo}>
           <div className={styles.logoIconWrapper}>
             <Image
               src="/suckit_logo.png"
@@ -19,7 +20,7 @@ export default function Navbar() {
             <span className={styles.logoText}>Suck</span>
             <span className={styles.logoAccent}>It</span>
           </span>
-        </a>
+        </Link>
 
         <div className={styles.links}>
           <a

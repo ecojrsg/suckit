@@ -77,7 +77,7 @@ def _active_download_count() -> int:
 # Background download logic (runs in a worker thread)
 # ---------------------------------------------------------------------------
 
-def _run_download(task_id: str, url: str, format_id: str | None, quality: str) -> None:
+def _run_download(task_id: str, url: str, format_id: str | None, quality: str, audio_format: str = "mp3") -> None:
     """Execute the download synchronously inside a thread-pool worker.
 
     Updates ``_tasks[task_id]`` in place so the status endpoint can read
@@ -95,6 +95,7 @@ def _run_download(task_id: str, url: str, format_id: str | None, quality: str) -
             url=url,
             format_id=format_id,
             quality=quality,
+            audio_format=audio_format,
             output_dir=DOWNLOAD_DIR,
             progress_callback=_on_progress,
         )
@@ -257,7 +258,7 @@ async def start_download(body: DownloadRequest) -> DownloadStatus:
     }
 
     # Fire-and-forget in the thread pool.
-    _executor.submit(_run_download, task_id, body.url, body.format_id, body.quality)
+    _executor.submit(_run_download, task_id, body.url, body.format_id, body.quality, body.audio_format)
 
     logger.info("Task %s: queued download for %s", task_id, body.url)
     return DownloadStatus(**{k: _tasks[task_id][k] for k in DownloadStatus.model_fields})

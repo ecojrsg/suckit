@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { detectPlatform, Platform } from '@/lib/types';
+import { useState, useRef } from 'react';
+import { detectPlatform } from '@/lib/types';
 import PlatformIcon from './PlatformIcon';
 import styles from './UrlInput.module.css';
 
@@ -13,18 +13,11 @@ interface UrlInputProps {
 
 export default function UrlInput({ onSubmit, isLoading, disabled }: UrlInputProps) {
   const [url, setUrl] = useState('');
-  const [platform, setPlatform] = useState<Platform | null>(null);
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (url.length > 8) {
-      const detected = detectPlatform(url);
-      setPlatform(detected !== 'other' ? detected : null);
-    } else {
-      setPlatform(null);
-    }
-  }, [url]);
+  const platform = url.length > 8 ? detectPlatform(url) : null;
+  const activePlatform = platform && platform !== 'other' ? platform : null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,10 +31,6 @@ export default function UrlInput({ onSubmit, isLoading, disabled }: UrlInputProp
       const text = await navigator.clipboard.readText();
       if (text) {
         setUrl(text);
-        const detected = detectPlatform(text);
-        if (detected !== 'other') {
-          setPlatform(detected);
-        }
       }
     } catch {
       // Clipboard API not available or permission denied
@@ -51,9 +40,9 @@ export default function UrlInput({ onSubmit, isLoading, disabled }: UrlInputProp
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <div className={`${styles.inputWrapper} ${isFocused ? styles.focused : ''}`}>
-        {platform && (
+        {activePlatform && (
           <div className={styles.platformBadge}>
-            <PlatformIcon platform={platform} size={18} />
+            <PlatformIcon platform={activePlatform} size={18} />
           </div>
         )}
         <input
@@ -64,7 +53,7 @@ export default function UrlInput({ onSubmit, isLoading, disabled }: UrlInputProp
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholder="Pega el link del video aquí..."
-          className={`${styles.input} ${platform ? styles.withPlatform : ''}`}
+          className={`${styles.input} ${activePlatform ? styles.withPlatform : ''}`}
           disabled={disabled || isLoading}
           autoComplete="off"
           spellCheck="false"
@@ -74,7 +63,7 @@ export default function UrlInput({ onSubmit, isLoading, disabled }: UrlInputProp
         {url && !isLoading && (
           <button
             type="button"
-            onClick={() => { setUrl(''); setPlatform(null); inputRef.current?.focus(); }}
+            onClick={() => { setUrl(''); inputRef.current?.focus(); }}
             className={styles.clearBtn}
             aria-label="Limpiar"
           >
